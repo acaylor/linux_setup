@@ -1,6 +1,8 @@
 # linux_setup
 Scripts and configs for a GNU/Linux system
 
+There are also some that can work on macOS.
+
 ### How to add color to outputs:
 
 With `echo -e` you can use escape characters:
