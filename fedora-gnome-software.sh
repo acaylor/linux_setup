@@ -2,19 +2,18 @@
 set -e
 
 echo "update dnf config"
-
+echo "allowing 10 parallel downloads"
 echo "max_parallel_downloads=10" | sudo tee -a /etc/dnf/dnf.conf
+echo "enabling fastest mirror selection"
 echo "fastestmirror=True" | sudo tee -a /etc/dnf/dnf.conf
 
 echo "Installing Software packages"
 
 sudo dnf install \
-	alacritty \
+	foot \
 	vim \
 	zsh \
 	tmux \
-	python3-pip \
-	git \
 	unzip \
 	p7zip \
 	p7zip-plugins \
@@ -38,7 +37,3 @@ echo "Making theme dir for user $USER"
 
 mkdir -p ~/.themes
 
-echo "Installing tlp for laptop"
-sudo dnf install \
-	tlp \
-	tlp-rdw
