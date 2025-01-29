@@ -69,8 +69,6 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-HISTCONTROL=ignoreboth
-
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
@@ -79,7 +77,7 @@ HISTCONTROL=ignoreboth
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions zsh-completions)
+plugins=(aws git nvm zsh-syntax-highlighting zsh-autosuggestions zsh-completions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -108,14 +106,57 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+alias ls='eza'
+alias l="ls -CF"
+alias ll="ls -alF"
+alias la="ls -A"
 alias tmux='tmux -2'
-alias up='sudo dnf --refresh update && sudo dnf upgrade'
-alias k='kubectl'
-alias t='terraform'
+# uncomment for redhat distros # alias up='sudo dnf --refresh update && sudo dnf upgrade'
+# uncomment for macOS alias # up="brew update && brew upgrade"
 alias kssh='kitty +kitten ssh'
+alias k="kubectl"
+alias kn="kubens"
+alias kx="kubectx"
+alias lha="eza -lhar"
+alias t="terraform"
+alias gpull="git fetch origin && git pull"
+#nvm comfig
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+
+# Ignore duplicate commands in history and those starting with blank space
+HISTCONTROL=ignoreboth
+
+# fzf integration
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#iterm2 shell integration
+source ~/.iterm2_shell_integration.zsh
+#git function
+function gnew() {
+    git checkout master
+    git pull origin master
+    git checkout -b $1
+    git push -u origin $1
+}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# fzf completion
-source /usr/share/fzf/shell/key-bindings.zsh
+# gcloud completion
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+
+# direnv
+eval "$(direnv hook zsh)"
+
+# kubectl completion
+source <(kubectl completion zsh)
+
+# Created by `pipx` on 2024-10-11 20:44:36
+export PATH="$PATH:/Users/acaylor/.local/bin"
+
+# pipx completion?
+eval "$(register-python-argcomplete pipx)"
+

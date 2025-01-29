@@ -9,3 +9,4 @@ let g:PaperColor_Theme_Options = {
   \ }
 
 colorscheme PaperColor
+# set rtp+=/opt/homebrew/opt/fzf
