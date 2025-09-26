@@ -1,48 +1,96 @@
 #!/usr/bin/env bash
-# Install homebrew packages on a mac
+# Install Homebrew packages on macOS
 
+set -euo pipefail
 
+# Formulae
 packages=(
-bat
-btop
-fzf
-git
-git-lfs
-neovim
-pandoc
-python@3.12
-the_silver_searcher
-tmux
-tree
-vim
+  alloy
+  awscli
+  bat
+  btop
+  cmatrix
+  codex
+  dust
+  eza
+  fzf
+  git
+  git-lfs
+  graphviz
+  handbrake
+  helm
+  httpie
+  jq
+  jsonnet
+  jupyterlab
+  k9s
+  kubernetes-cli
+  lua
+  macchina
+  mpv
+  neovim
+  node
+  node_exporter
+  pandoc
+  popeye
+  prometheus
+  python@3.13
+  ripgrep
+  ruby
+  sqlite
+  sshpass
+  syncthing
+  terraform
+  tmux
+  tree-sitter
+  vim
+  xz
+  yq
 )
 
-# I removed some from this list as they are
-# not suitable for my desktop mac
-other_packages=(
-httpie
-syncthing
-terraform
-)
-
+# Casks
 casks=(
-kitty
-rectangle
+  arc
+  betterdisplay
+  bitwarden
+  chromium
+  claude
+  cursor
+  cyberduck
+  dbeaver-community
+  devutils
+  discord
+  docker-desktop
+  ghostty
+  google-chrome
+  handbrake
+  handbrake-app
+  insomnia
+  iterm2
+  keka
+  kitty
+  librewolf
+  msty
+  obsidian
+  parsec
+  pearcleaner
+  pycharm-ce
+  raspberry-pi-imager
+  raycast
+  rectangle
+  stats
+  steam
+  upscayl
+  utm
+  visual-studio-code
+  zen
+  zenmap
 )
 
-# I removed some from this list as they are
-# not suitable for my desktop mac
-other_casks=(
-istat-menus
-iterm2
-visual-studio-code
-obsidian
-)
+echo "Installing brew packages..."
+brew install "${packages[@]}"
 
-printf "Installing brew packages"
-brew install $packages
+echo "Installing brew casks..."
+brew install --cask "${casks[@]}"
 
-printf "Done installing brew packages"
-
-printf "installing brew cask packages"
-brew install --cask $casks
+echo "All done"
