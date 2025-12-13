@@ -7,9 +7,10 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-  "theme": "Andromeda",
+  "icon_theme": "Catppuccin Mocha",
   "soft_wrap": "editor_width",
-  "buffer_font_size": 15,
-  "buffer_font_family": "DejaVuSansMono Nerd Font Mono"
+  "theme": "Catppuccin Mocha",
+  "buffer_font_family": "SauceCodePro NFM",
+  "ui_font_size": 16,
+  "buffer_font_size": 16
 }
-
