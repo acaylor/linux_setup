@@ -1,0 +1,9 @@
+# Prompt
+romkatv/powerlevel10k
+
+# Completions (must be available before compinit)
+zsh-users/zsh-completions
+
+# UX
+zsh-users/zsh-autosuggestions kind:defer
+zdharma-continuum/fast-syntax-highlighting kind:defer

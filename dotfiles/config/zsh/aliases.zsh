@@ -1,0 +1,56 @@
+# ---- Aliases (sourced by ~/.zshrc) ----
+
+alias tmux='tmux -2'
+alias up='brew update && brew upgrade'
+alias k='kubectl'
+alias t='terraform'
+alias kssh='kitty +kitten ssh'
+alias cdr='cd ~/Documents/repos'
+alias ls='eza'
+alias lha='eza -lha'
+alias lth='eza -ltrah'
+
+# Git (minimal OMZ replacements)
+alias g='git'
+alias gst='git status'
+alias ga='git add'
+alias gaa='git add --all'
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gb='git branch'
+alias gl='git pull'
+alias gp='git push'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias glg='git log --oneline --decorate --graph --all'
+alias glp='git log --stat'
+alias gsh='git show'
+alias gsta='git stash push'
+alias gstp='git stash pop'
+alias gstl='git stash list'
+alias gpf='git push --force-with-lease'
+
+# kubectl helpers
+alias kg='kubectl get'
+alias kd='kubectl describe'
+alias ka='kubectl apply -f'
+alias kdel='kubectl delete'
+alias kctx='kubectl config use-context'
+alias kns='kubectl config set-context --current --namespace'
+alias klogs='kubectl logs -f'
+alias kexec='kubectl exec -it'
+
+# Terraform helpers
+alias tf='terraform'
+alias tfi='terraform init'
+alias tfp='terraform plan'
+alias tfa='terraform apply'
+alias tfd='terraform destroy'
+alias tfmt='terraform fmt -recursive'
+
+# tmux helpers
+alias ta='tmux attach -t'
+alias tls='tmux ls'
+alias tn='tmux new -s'
