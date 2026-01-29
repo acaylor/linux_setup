@@ -5,86 +5,63 @@ set -euo pipefail
 
 # Formulae
 packages=(
-  alloy
+  antidote
   awscli
   bat
   btop
+  cmake
   cmatrix
-  codex
   dust
   eza
+  fd
   fzf
-  git
   git-lfs
   graphviz
-  handbrake
   helm
   httpie
   jq
-  jsonnet
-  jupyterlab
   k9s
   kubernetes-cli
-  lua
-  macchina
-  mpv
+  lazydocker
+  lazygit
+  handbrake
   neovim
   node
-  node_exporter
-  pandoc
-  popeye
-  prometheus
-  python@3.13
+  opencode
+  oven-sh/bun/bun
+  pipx
+  python@3.14
   ripgrep
-  ruby
-  sqlite
-  sshpass
   syncthing
-  terraform
   tmux
-  tree-sitter
-  vim
-  xz
+  tree
   yq
 )
 
 # Casks
 casks=(
-  arc
-  betterdisplay
   bitwarden
-  chromium
-  claude
   cursor
   cyberduck
+  datweatherdoe
   dbeaver-community
-  devutils
   discord
-  docker-desktop
   ghostty
   google-chrome
-  handbrake
-  handbrake-app
   insomnia
-  iterm2
   keka
-  kitty
-  librewolf
-  msty
+  lm-studio
   obsidian
-  parsec
+  orbstack
   pearcleaner
-  pycharm-ce
   raspberry-pi-imager
-  raycast
   rectangle
   stats
   steam
-  upscayl
-  utm
+  transmission
   visual-studio-code
   zen
-  zenmap
+  zed
 )
 
 echo "Installing brew packages..."
