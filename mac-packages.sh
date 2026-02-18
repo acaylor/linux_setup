@@ -6,17 +6,24 @@ set -euo pipefail
 # Formulae
 packages=(
   antidote
+  aria2
   awscli
   bat
   btop
   cmake
   cmatrix
+  duf
   dust
+  entr
   eza
   fd
+  ffmpeg
   fzf
+  git-delta
   git-lfs
   graphviz
+  handbrake
+  hashicorp/tap/terraform
   helm
   httpie
   jq
@@ -24,23 +31,30 @@ packages=(
   kubernetes-cli
   lazydocker
   lazygit
-  handbrake
+  mpv
   neovim
   node
   opencode
   oven-sh/bun/bun
+  pandoc
   pipx
   python@3.14
+  rclone
   ripgrep
+  scc
   syncthing
+  tldr
   tmux
   tree
   yq
+  zellij
+  zoxide
 )
 
 # Casks
 casks=(
   bitwarden
+  codex
   cursor
   cyberduck
   datweatherdoe
@@ -60,8 +74,8 @@ casks=(
   steam
   transmission
   visual-studio-code
-  zen
   zed
+  zen
 )
 
 echo "Installing brew packages..."
