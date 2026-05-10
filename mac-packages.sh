@@ -3,6 +3,13 @@
 
 set -euo pipefail
 
+# Taps
+taps=(
+  hashicorp/tap
+  homebrew/services
+  oven-sh/bun
+)
+
 # Formulae
 packages=(
   antidote
@@ -12,6 +19,8 @@ packages=(
   btop
   cmake
   cmatrix
+  ctop
+  d2
   duf
   dust
   entr
@@ -19,9 +28,13 @@ packages=(
   fd
   ffmpeg
   fzf
+  gemini-cli
+  gh
   git-delta
   git-lfs
+  go
   graphviz
+  gstreamer
   handbrake
   hashicorp/tap/terraform
   helm
@@ -34,18 +47,25 @@ packages=(
   mpv
   neovim
   node
+  node_exporter
   opencode
   oven-sh/bun/bun
   pandoc
   pipx
+  pnpm
+  popeye
+  prometheus
   python@3.14
   rclone
+  renovate
   ripgrep
   scc
   syncthing
   tldr
   tmux
   tree
+  uv
+  xz
   yq
   zellij
   zoxide
@@ -54,7 +74,10 @@ packages=(
 # Casks
 casks=(
   bitwarden
+  claude
+  claude-code
   codex
+  codex-app
   cursor
   cyberduck
   datweatherdoe
@@ -72,11 +95,14 @@ casks=(
   rectangle
   stats
   steam
+  thaw
   transmission
-  visual-studio-code
   zed
   zen
 )
+
+echo "Tapping brew repositories..."
+brew tap "${taps[@]}"
 
 echo "Installing brew packages..."
 brew install "${packages[@]}"
