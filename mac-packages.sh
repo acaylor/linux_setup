@@ -102,7 +102,9 @@ casks=(
 )
 
 echo "Tapping brew repositories..."
-brew tap "${taps[@]}"
+for tap in "${taps[@]}"; do
+  brew tap "$tap"
+done
 
 echo "Installing brew packages..."
 brew install "${packages[@]}"
