@@ -44,6 +44,7 @@ packages=(
   kubernetes-cli
   lazydocker
   lazygit
+  lychee
   mpv
   neovim
   node
@@ -55,12 +56,14 @@ packages=(
   pnpm
   popeye
   prometheus
+  python@3.10
   python@3.14
   rclone
   renovate
   ripgrep
   scc
   syncthing
+  tea
   tldr
   tmux
   tree
@@ -75,7 +78,7 @@ packages=(
 casks=(
   bitwarden
   claude
-  claude-code
+  claude-code@latest
   codex
   codex-app
   cursor
@@ -84,6 +87,7 @@ casks=(
   dbeaver-community
   discord
   ghostty
+  godot
   google-chrome
   insomnia
   keka
