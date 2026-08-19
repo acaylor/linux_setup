@@ -83,6 +83,7 @@ package_manager = "npm"
 "brew-cask:raspberry-pi-imager" = { os = "macos" }
 "brew-cask:rectangle" = { os = "macos" }
 "brew-cask:stats" = { os = "macos" }
+"brew-cask:steam" = { os = "macos" }
 "brew-cask:thaw" = { os = "macos" }
 "brew-cask:transmission" = { os = "macos" }
 "brew-cask:zed" = { os = "macos" }
@@ -105,12 +106,12 @@ zshrc = "activate"
 # These replace the Homebrew-generated LaunchAgents after the current Mac's
 # service migration. Do not apply this phase until the old homebrew.mxcl jobs
 # have been stopped, or both supervisors will start the same services.
-# launchd does not expand HOME inside EnvironmentVariables; this golden Mac
-# profile therefore uses the account's canonical absolute home path.
+# launchd does not expand HOME inside EnvironmentVariables, so mise renders the
+# account's absolute home path into the generated plists at bootstrap time.
 [bootstrap.macos.launchd.agents.moshi-hook]
 program = "/opt/homebrew/opt/moshi-hook/bin/moshi-hook"
 args = ["serve"]
-environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
+environment = { PATH = "{{ env.HOME }}/.local/share/mise/shims:{{ env.HOME }}/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
 keep_alive = true
 run_at_load = true
 working_directory = "/opt/homebrew/var"
@@ -119,14 +120,14 @@ stderr_path = "/opt/homebrew/var/log/moshi-hook.log"
 
 [bootstrap.macos.launchd.agents.node-exporter]
 program = "/opt/homebrew/opt/node_exporter/bin/node_exporter_brew_services"
-environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
+environment = { PATH = "{{ env.HOME }}/.local/share/mise/shims:{{ env.HOME }}/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
 run_at_load = true
 stdout_path = "/opt/homebrew/var/log/node_exporter.log"
 stderr_path = "/opt/homebrew/var/log/node_exporter.err.log"
 
 [bootstrap.macos.launchd.agents.prometheus]
 program = "/opt/homebrew/opt/prometheus/bin/prometheus_brew_services"
-environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
+environment = { PATH = "{{ env.HOME }}/.local/share/mise/shims:{{ env.HOME }}/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
 run_at_load = true
 stdout_path = "/opt/homebrew/var/log/prometheus.log"
 stderr_path = "/opt/homebrew/var/log/prometheus.err.log"
@@ -134,7 +135,7 @@ stderr_path = "/opt/homebrew/var/log/prometheus.err.log"
 [bootstrap.macos.launchd.agents.syncthing]
 program = "/opt/homebrew/opt/syncthing/bin/syncthing"
 args = ["--no-browser", "--no-restart"]
-environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
+environment = { PATH = "{{ env.HOME }}/.local/share/mise/shims:{{ env.HOME }}/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
 keep_alive = true
 run_at_load = true
 stdout_path = "/opt/homebrew/var/log/syncthing.log"
@@ -147,7 +148,9 @@ deno = "latest"
 go = "latest"
 node = "24"
 pnpm = "latest"
-python = "latest"
+# 3.10 stays alongside the default for older project virtualenvs; it replaces
+# the python@3.10 formula the previous mac-packages.sh installed.
+python = ["latest", "3.10"]
 rust = "latest"
 uv = "latest"
 zig = "latest"
@@ -201,6 +204,7 @@ zoxide = "latest"
 "go:golang.org/x/vuln/cmd/govulncheck" = "latest"
 "npm:@anthropic-ai/claude-code" = { version = "latest", allow_builds = ["@anthropic-ai/claude-code"] }
 "npm:@earendil-works/pi-coding-agent" = "latest"
+"npm:@google/gemini-cli" = "latest"
 "npm:@mermaid-js/mermaid-cli" = { version = "latest", allow_builds = ["@mermaid-js/mermaid-cli", "puppeteer"] }
 "npm:@openai/codex" = "latest"
 "npm:@playwright/cli" = "latest"

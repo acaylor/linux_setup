@@ -21,16 +21,22 @@ The ownership boundary is deliberate:
 - **mise** provides user-scoped runtimes and developer CLIs. Its canonical
   inventory is
   [`mise/workstation.toml`](mise/workstation.toml), which the bootstrap installs
-  as `~/.config/mise/config.toml` before running `mise bootstrap`.
+  as `$XDG_CONFIG_HOME/mise/config.toml` (`~/.config/mise/config.toml` by
+  default) before running `mise bootstrap`.
 
 Update user tools with `mise outdated` and `mise upgrade`; do not use direct
 `npm install -g`, `go install`, `cargo install`, or `pipx install` for tools
 listed in the manifest. The bootstrap script backs up a differing existing
 mise configuration before replacing it. Portable Zsh fragments under
-`dotfiles/config/zsh/` are installed without replacing a machine's complete
-`~/.zshrc`. It also updates mise itself and adds mise's shims to `~/.zshenv`
-and `~/.zprofile`, so managed commands retain precedence in interactive,
-login, and noninteractive SSH shells.
+`dotfiles/config/zsh/` are installed into `$XDG_CONFIG_HOME/zsh/` without
+replacing a machine's complete `~/.zshrc`; a small marked block appended to
+`~/.zshrc` sources them, so the fragments are active on fresh hosts that never
+install this repository's `dotfiles/zshrc`. It also updates mise itself and adds
+mise's shims to `~/.zshenv` and `~/.zprofile`, so managed commands retain
+precedence in interactive, login, and noninteractive SSH shells. The same PATH
+export is prepended to `~/.bash_profile` and `~/.bashrc`, because mise's own
+`~/.bash_profile` activation block stops Bash login shells from reading
+`~/.profile` and would otherwise leave `mise` itself off PATH.
 
 On the existing Mac, migrate in phases so current Homebrew casks and services
 are not taken over prematurely:
@@ -43,7 +49,10 @@ After the old `homebrew.mxcl.*` jobs and cask receipts have been migrated, a
 plain `./workstation-bootstrap.sh` converges the complete workstation.
 Blender and `rjyo/moshi/moshi-hook` remain documented manual macOS exceptions:
 their Homebrew lifecycle metadata is not currently supported by mise's direct
-package backend.
+package backend. Everything else the previous `mac-packages.sh` installed has a
+manifest entry; three moved backends rather than disappearing: `gemini-cli`
+became `npm:@google/gemini-cli`, `python@3.10` became a second mise Python
+version, and `steam` stayed a cask.
 
 There are also some that can work on macOS.
 

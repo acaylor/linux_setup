@@ -9,8 +9,12 @@ if (( $+commands[mise] )); then
 fi
 
 # ---- Antidote (fast plugin loading) ----
-source "${ZDOTDIR:-$HOME}/.antidote/antidote.zsh"
-antidote load
+# The bootstrap clones Antidote to ~/.antidote, not under $ZDOTDIR, and it is
+# absent until the repo phase has run at least once.
+if [[ -r "$HOME/.antidote/antidote.zsh" ]]; then
+  source "$HOME/.antidote/antidote.zsh"
+  antidote load
+fi
 
 # ---- Completion system (do this early) ----
 autoload -Uz compinit
