@@ -46,6 +46,7 @@ packages=(
   lazygit
   lychee
   mpv
+  mise
   neovim
   node
   node_exporter
@@ -115,5 +116,23 @@ brew install "${packages[@]}"
 
 echo "Installing brew casks..."
 brew install --cask "${casks[@]}"
+
+echo "Installing mise-managed CLIs..."
+mise use --global glab@latest
+eval "$(mise activate bash)"
+
+ensure_line() {
+  local file=$1 line=$2
+  touch "$file"
+  grep -Fqx "$line" "$file" || printf '\n%s\n' "$line" >> "$file"
+}
+
+ensure_line "$HOME/.zshrc" 'eval "$(mise activate zsh)"'
+glab config set telemetry false --global
+if [[ -n ${GITLAB_TOKEN:-} ]]; then
+  glab auth login --hostname gitlab.com --token "$GITLAB_TOKEN"
+else
+  printf 'GITLAB_TOKEN is unset; run `glab auth login` when a token is available.\n'
+fi
 
 echo "All done"
