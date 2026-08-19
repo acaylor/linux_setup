@@ -17,6 +17,7 @@ package_manager = "npm"
 "apt:ffmpeg" = { os = "linux" }
 "apt:git" = { os = "linux" }
 "apt:graphviz" = { os = "linux" }
+"apt:libgraphviz-dev" = { os = "linux" }
 "apt:rsync" = { os = "linux" }
 "apt:tree" = { os = "linux" }
 "apt:unzip" = { os = "linux" }
@@ -33,6 +34,7 @@ package_manager = "npm"
 "dnf:gcc-c++" = { os = "linux" }
 "dnf:git" = { os = "linux" }
 "dnf:graphviz" = { os = "linux" }
+"dnf:graphviz-devel" = { os = "linux" }
 "dnf:make" = { os = "linux" }
 "dnf:patch" = { os = "linux" }
 "dnf:pkgconf-pkg-config" = { os = "linux" }
@@ -209,7 +211,8 @@ zoxide = "latest"
 "pipx:asciinema" = "latest"
 "pipx:glances" = "latest"
 "pipx:httpie" = "latest"
-# pygraphviz needs the host-owned Graphviz headers and libraries. These paths
-# are harmless when absent on Linux and select the canonical arm64 Mac prefix.
+# pygraphviz needs the host-owned Graphviz headers and libraries. Linux gets
+# them from the native development packages above; these flags select the
+# canonical arm64 Homebrew prefix on macOS.
 "pipx:kubediagrams" = { version = "latest", install_env = { CFLAGS = "-I/opt/homebrew/include", LDFLAGS = "-L/opt/homebrew/lib" } }
 "pipx:ranger-fm" = "latest"
