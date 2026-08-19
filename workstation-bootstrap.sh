@@ -5,13 +5,17 @@ set -euo pipefail
 
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 manifest="$script_dir/mise/workstation.toml"
+kubediagrams_overrides="$script_dir/mise/kubediagrams-overrides.txt"
 global_config="$HOME/.config/mise/config.toml"
+global_kubediagrams_overrides="$HOME/.config/mise/kubediagrams-overrides.txt"
 mise_bin="$HOME/.local/bin/mise"
 
-if [[ ! -f $manifest ]]; then
-  printf 'Missing workstation manifest: %s\n' "$manifest" >&2
-  exit 1
-fi
+for required_file in "$manifest" "$kubediagrams_overrides"; do
+  if [[ ! -f $required_file ]]; then
+    printf 'Missing workstation configuration: %s\n' "$required_file" >&2
+    exit 1
+  fi
+done
 
 if ! command -v curl >/dev/null 2>&1; then
   if command -v apt-get >/dev/null 2>&1; then
@@ -55,6 +59,7 @@ if [[ -f $global_config ]] && ! cmp -s "$manifest" "$global_config"; then
   printf 'Backed up the previous mise config to %s\n' "$backup"
 fi
 install -m 0644 "$manifest" "$global_config"
+install -m 0644 "$kubediagrams_overrides" "$global_kubediagrams_overrides"
 
 # Keep portable Zsh fragments aligned without replacing the user's whole
 # ~/.zshrc, which may contain machine-local initialization and credentials.
