@@ -8,9 +8,6 @@
 [settings.npm]
 package_manager = "npm"
 
-[bootstrap.brew.taps]
-"rjyo/moshi" = "https://github.com/rjyo/homebrew-moshi.git"
-
 [bootstrap.packages]
 # Ubuntu workstation baseline.
 "apt:build-essential" = { os = "linux" }
@@ -50,6 +47,7 @@ package_manager = "npm"
 # provide shared libraries, media stacks, or long-running launchd services.
 # mise pours these bottles directly and does not require the brew CLI.
 "brew:aria2" = { os = "macos" }
+"brew:btop" = { os = "macos" }
 "brew:cmatrix" = { os = "macos" }
 "brew:entr" = { os = "macos" }
 "brew:ffmpeg" = { os = "macos" }
@@ -59,7 +57,6 @@ package_manager = "npm"
 "brew:mpv" = { os = "macos" }
 "brew:node_exporter" = { os = "macos" }
 "brew:prometheus" = { os = "macos" }
-"brew:rjyo/moshi/moshi-hook" = { os = "macos" }
 "brew:syncthing" = { os = "macos" }
 "brew:tree" = { os = "macos" }
 "brew:xz" = { os = "macos" }
@@ -86,7 +83,6 @@ package_manager = "npm"
 "brew-cask:raspberry-pi-imager" = { os = "macos" }
 "brew-cask:rectangle" = { os = "macos" }
 "brew-cask:stats" = { os = "macos" }
-"brew-cask:steam" = { os = "macos" }
 "brew-cask:thaw" = { os = "macos" }
 "brew-cask:transmission" = { os = "macos" }
 "brew-cask:zed" = { os = "macos" }
@@ -96,6 +92,7 @@ package_manager = "npm"
 # backend supports their lifecycle steps. The `_` section is ignored by mise.
 [_.manual_macos]
 casks = ["blender"]
+formulae = ["rjyo/moshi/moshi-hook"]
 
 [bootstrap.repos]
 "~/.antidote" = { url = "https://github.com/mattmc3/antidote.git" }
@@ -108,9 +105,12 @@ zshrc = "activate"
 # These replace the Homebrew-generated LaunchAgents after the current Mac's
 # service migration. Do not apply this phase until the old homebrew.mxcl jobs
 # have been stopped, or both supervisors will start the same services.
+# launchd does not expand HOME inside EnvironmentVariables; this golden Mac
+# profile therefore uses the account's canonical absolute home path.
 [bootstrap.macos.launchd.agents.moshi-hook]
 program = "/opt/homebrew/opt/moshi-hook/bin/moshi-hook"
 args = ["serve"]
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
 keep_alive = true
 run_at_load = true
 working_directory = "/opt/homebrew/var"
@@ -119,12 +119,14 @@ stderr_path = "/opt/homebrew/var/log/moshi-hook.log"
 
 [bootstrap.macos.launchd.agents.node-exporter]
 program = "/opt/homebrew/opt/node_exporter/bin/node_exporter_brew_services"
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
 run_at_load = true
 stdout_path = "/opt/homebrew/var/log/node_exporter.log"
 stderr_path = "/opt/homebrew/var/log/node_exporter.err.log"
 
 [bootstrap.macos.launchd.agents.prometheus]
 program = "/opt/homebrew/opt/prometheus/bin/prometheus_brew_services"
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
 run_at_load = true
 stdout_path = "/opt/homebrew/var/log/prometheus.log"
 stderr_path = "/opt/homebrew/var/log/prometheus.err.log"
@@ -132,6 +134,7 @@ stderr_path = "/opt/homebrew/var/log/prometheus.err.log"
 [bootstrap.macos.launchd.agents.syncthing]
 program = "/opt/homebrew/opt/syncthing/bin/syncthing"
 args = ["--no-browser", "--no-restart"]
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
 keep_alive = true
 run_at_load = true
 stdout_path = "/opt/homebrew/var/log/syncthing.log"
@@ -152,7 +155,8 @@ zig = "latest"
 # Portable developer CLIs from upstream release artifacts.
 awscli = "latest"
 bat = "latest"
-btop = "latest"
+# The upstream artifact backend is Linux-only; macOS uses the formula above.
+btop = { version = "latest", os = ["linux"] }
 cmake = "latest"
 ctop = "latest"
 d2 = "latest"
@@ -205,5 +209,7 @@ zoxide = "latest"
 "pipx:asciinema" = "latest"
 "pipx:glances" = "latest"
 "pipx:httpie" = "latest"
-"pipx:kubediagrams" = "latest"
+# pygraphviz needs the host-owned Graphviz headers and libraries. These paths
+# are harmless when absent on Linux and select the canonical arm64 Mac prefix.
+"pipx:kubediagrams" = { version = "latest", install_env = { CFLAGS = "-I/opt/homebrew/include", LDFLAGS = "-L/opt/homebrew/lib" } }
 "pipx:ranger-fm" = "latest"

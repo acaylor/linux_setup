@@ -36,15 +36,16 @@ fi
 export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
 
 # Noninteractive Zsh sessions (including `ssh host command`) read ~/.zshenv but
-# not ~/.zshrc. Keep both mise itself and its shims available without requiring
-# interactive shell activation.
-zshenv="$HOME/.zshenv"
+# not ~/.zshrc. Login setup such as brew shellenv or OrbStack may reorder PATH,
+# so ~/.zprofile reasserts the same precedence after those machine-local edits.
 mise_path_line='export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"'
-touch "$zshenv"
-if ! grep -Fqx "$mise_path_line" "$zshenv"; then
-  printf '\n# Make mise-managed tools available to noninteractive Zsh sessions.\n%s\n' \
-    "$mise_path_line" >>"$zshenv"
-fi
+for zsh_startup_file in "$HOME/.zshenv" "$HOME/.zprofile"; do
+  touch "$zsh_startup_file"
+  if ! grep -Fqx "$mise_path_line" "$zsh_startup_file"; then
+    printf '\n# Keep mise-managed tools ahead of system package-manager paths.\n%s\n' \
+      "$mise_path_line" >>"$zsh_startup_file"
+  fi
+done
 
 # Preserve local experimentation, then install the repository copy as the
 # global config. The repository remains the only file edited by hand.

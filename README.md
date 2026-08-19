@@ -28,9 +28,9 @@ Update user tools with `mise outdated` and `mise upgrade`; do not use direct
 listed in the manifest. The bootstrap script backs up a differing existing
 mise configuration before replacing it. Portable Zsh fragments under
 `dotfiles/config/zsh/` are installed without replacing a machine's complete
-`~/.zshrc`. It also updates mise itself and adds mise's shims to `~/.zshenv`,
-so managed commands work in both interactive shells and noninteractive SSH
-commands.
+`~/.zshrc`. It also updates mise itself and adds mise's shims to `~/.zshenv`
+and `~/.zprofile`, so managed commands retain precedence in interactive,
+login, and noninteractive SSH shells.
 
 On the existing Mac, migrate in phases so current Homebrew casks and services
 are not taken over prematurely:
@@ -41,6 +41,9 @@ are not taken over prematurely:
 
 After the old `homebrew.mxcl.*` jobs and cask receipts have been migrated, a
 plain `./workstation-bootstrap.sh` converges the complete workstation.
+Blender and `rjyo/moshi/moshi-hook` remain documented manual macOS exceptions:
+their Homebrew lifecycle metadata is not currently supported by mise's direct
+package backend.
 
 There are also some that can work on macOS.
 
