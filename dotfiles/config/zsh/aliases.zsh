@@ -1,7 +1,7 @@
 # ---- Aliases (sourced by ~/.zshrc) ----
 
 alias tmux='tmux -2'
-alias up='sudo apt update && sudo apt upgrade'
+alias up='mise upgrade'
 alias k='kubectl'
 alias t='terraform'
 alias cdr='cd ~/sourcecode'

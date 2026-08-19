@@ -25,9 +25,8 @@ fi
 # p10k config 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# fzf
-[[ -r /usr/share/doc/fzf/examples/key-bindings.zsh ]] && source /usr/share/doc/fzf/examples/key-bindings.zsh
-[[ -r /usr/share/doc/fzf/examples/completion.zsh ]] && source /usr/share/doc/fzf/examples/completion.zsh
+# fzf ships its shell integration on every platform mise supports.
+(( $+commands[fzf] )) && source <(fzf --zsh)
 
 # ---- kubectl completion (cache it; don't exec kubectl every shell) ----
 KUBECTL_COMP_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/kubectl-completion.zsh"
