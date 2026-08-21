@@ -63,6 +63,7 @@ package_manager = "npm"
 
 # macOS applications. Coding-agent CLIs are deliberately absent: mise owns
 # those through npm below. Desktop applications remain native casks.
+"brew-cask:antigravity" = { os = "macos" }
 "brew-cask:bitwarden" = { os = "macos" }
 "brew-cask:claude" = { os = "macos" }
 "brew-cask:codex-app" = { os = "macos" }
@@ -106,12 +107,18 @@ zshrc = "activate"
 # These replace the Homebrew-generated LaunchAgents after the current Mac's
 # service migration. Do not apply this phase until the old homebrew.mxcl jobs
 # have been stopped, or both supervisors will start the same services.
-# launchd does not expand HOME inside EnvironmentVariables, so mise renders the
-# account's absolute home path into the generated plists at bootstrap time.
+#
+# HARDCODED HOME PATH -- CHANGE `/Users/aj` TO MATCH YOUR SYSTEM.
+#
+# The PATH below cannot be written portably. launchd does not expand `$HOME`
+# inside EnvironmentVariables, and mise does not template this map either
+#
+# `/usr/sbin` is required for the lsof and netstat that moshi-hook's gateway
+# discovery shells out to
 [bootstrap.macos.launchd.agents.moshi-hook]
 program = "/opt/homebrew/opt/moshi-hook/bin/moshi-hook"
 args = ["serve"]
-environment = { PATH = "{{ env.HOME }}/.local/share/mise/shims:{{ env.HOME }}/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin" }
 keep_alive = true
 run_at_load = true
 working_directory = "/opt/homebrew/var"
@@ -120,14 +127,14 @@ stderr_path = "/opt/homebrew/var/log/moshi-hook.log"
 
 [bootstrap.macos.launchd.agents.node-exporter]
 program = "/opt/homebrew/opt/node_exporter/bin/node_exporter_brew_services"
-environment = { PATH = "{{ env.HOME }}/.local/share/mise/shims:{{ env.HOME }}/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin" }
 run_at_load = true
 stdout_path = "/opt/homebrew/var/log/node_exporter.log"
 stderr_path = "/opt/homebrew/var/log/node_exporter.err.log"
 
 [bootstrap.macos.launchd.agents.prometheus]
 program = "/opt/homebrew/opt/prometheus/bin/prometheus_brew_services"
-environment = { PATH = "{{ env.HOME }}/.local/share/mise/shims:{{ env.HOME }}/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin" }
 run_at_load = true
 stdout_path = "/opt/homebrew/var/log/prometheus.log"
 stderr_path = "/opt/homebrew/var/log/prometheus.err.log"
@@ -135,7 +142,7 @@ stderr_path = "/opt/homebrew/var/log/prometheus.err.log"
 [bootstrap.macos.launchd.agents.syncthing]
 program = "/opt/homebrew/opt/syncthing/bin/syncthing"
 args = ["--no-browser", "--no-restart"]
-environment = { PATH = "{{ env.HOME }}/.local/share/mise/shims:{{ env.HOME }}/.local/bin:/opt/homebrew/bin:/usr/bin:/bin" }
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin" }
 keep_alive = true
 run_at_load = true
 stdout_path = "/opt/homebrew/var/log/syncthing.log"

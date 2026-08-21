@@ -56,3 +56,6 @@ alias tfmt='terraform fmt -recursive'
 alias ta='tmux attach -t'
 alias tls='tmux ls'
 alias tn='tmux new -s'
+
+# Dotfiles bare repo
+alias dot='git --git-dir="$HOME/.dotfiles" --work-tree="$HOME"'
