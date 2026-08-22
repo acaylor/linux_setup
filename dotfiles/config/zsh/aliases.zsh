@@ -1,10 +1,9 @@
 # ---- Aliases (sourced by ~/.zshrc) ----
 
 alias tmux='tmux -2'
-alias up='brew update && brew upgrade'
+alias up='mise upgrade'
 alias k='kubectl'
 alias t='terraform'
-alias kssh='kitty +kitten ssh'
 alias cdr='cd ~/sourcecode'
 alias ls='eza'
 alias lha='eza -lha'
@@ -58,3 +57,5 @@ alias ta='tmux attach -t'
 alias tls='tmux ls'
 alias tn='tmux new -s'
 
+# Dotfiles bare repo
+alias dot='git --git-dir="$HOME/.dotfiles" --work-tree="$HOME"'

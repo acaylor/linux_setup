@@ -1,0 +1,2 @@
+# KubeDiagrams 0.8.0 pins 1.14, which does not support Graphviz 13+ APIs.
+pygraphviz==2.0.1

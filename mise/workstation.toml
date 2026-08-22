@@ -1,0 +1,227 @@
+# Canonical workstation configuration for macOS and Linux.
+#
+# mise owns user-scoped runtimes and developer CLIs. Native package managers
+# own operating-system integration, shared libraries, GUI applications, and
+# services. `mise bootstrap` selects only the package manager entries that are
+# valid on the current host, so this file is the source of truth everywhere.
+
+[settings.npm]
+package_manager = "npm"
+
+[bootstrap.packages]
+# Ubuntu workstation baseline.
+"apt:build-essential" = { os = "linux" }
+"apt:ca-certificates" = { os = "linux" }
+"apt:curl" = { os = "linux" }
+"apt:entr" = { os = "linux" }
+"apt:ffmpeg" = { os = "linux" }
+"apt:git" = { os = "linux" }
+"apt:graphviz" = { os = "linux" }
+"apt:rsync" = { os = "linux" }
+"apt:tree" = { os = "linux" }
+"apt:unzip" = { os = "linux" }
+"apt:xz-utils" = { os = "linux" }
+"apt:zsh" = { os = "linux" }
+
+# Fedora workstation baseline. Managers that are unavailable on the current
+# Linux distribution are skipped, so apt and dnf entries can coexist here.
+"dnf:ca-certificates" = { os = "linux" }
+"dnf:curl" = { os = "linux" }
+"dnf:entr" = { os = "linux" }
+"dnf:ffmpeg-free" = { os = "linux" }
+"dnf:gcc" = { os = "linux" }
+"dnf:gcc-c++" = { os = "linux" }
+"dnf:git" = { os = "linux" }
+"dnf:graphviz" = { os = "linux" }
+"dnf:make" = { os = "linux" }
+"dnf:patch" = { os = "linux" }
+"dnf:pkgconf-pkg-config" = { os = "linux" }
+"dnf:rsync" = { os = "linux" }
+"dnf:tree" = { os = "linux" }
+"dnf:unzip" = { os = "linux" }
+"dnf:util-linux" = { os = "linux" }
+"dnf:xz" = { os = "linux" }
+"dnf:zsh" = { os = "linux" }
+
+# macOS host packages. These intentionally remain outside [tools] because they
+# provide shared libraries, media stacks, or long-running launchd services.
+# mise pours these bottles directly and does not require the brew CLI.
+"brew:aria2" = { os = "macos" }
+"brew:btop" = { os = "macos" }
+"brew:cmatrix" = { os = "macos" }
+"brew:entr" = { os = "macos" }
+"brew:ffmpeg" = { os = "macos" }
+"brew:graphviz" = { os = "macos" }
+"brew:gstreamer" = { os = "macos" }
+"brew:handbrake" = { os = "macos" }
+"brew:mpv" = { os = "macos" }
+"brew:node_exporter" = { os = "macos" }
+"brew:prometheus" = { os = "macos" }
+"brew:syncthing" = { os = "macos" }
+"brew:tree" = { os = "macos" }
+"brew:xz" = { os = "macos" }
+
+# macOS applications. Coding-agent CLIs are deliberately absent: mise owns
+# those through npm below. Desktop applications remain native casks.
+"brew-cask:antigravity" = { os = "macos" }
+"brew-cask:bitwarden" = { os = "macos" }
+"brew-cask:claude" = { os = "macos" }
+"brew-cask:codex-app" = { os = "macos" }
+"brew-cask:cursor" = { os = "macos" }
+"brew-cask:cyberduck" = { os = "macos" }
+"brew-cask:datweatherdoe" = { os = "macos" }
+"brew-cask:dbeaver-community" = { os = "macos" }
+"brew-cask:discord" = { os = "macos" }
+"brew-cask:ghostty" = { os = "macos" }
+"brew-cask:godot" = { os = "macos" }
+"brew-cask:google-chrome" = { os = "macos" }
+"brew-cask:insomnia" = { os = "macos" }
+"brew-cask:keka" = { os = "macos" }
+"brew-cask:lm-studio" = { os = "macos" }
+"brew-cask:obsidian" = { os = "macos" }
+"brew-cask:orbstack" = { os = "macos" }
+"brew-cask:pearcleaner" = { os = "macos" }
+"brew-cask:raspberry-pi-imager" = { os = "macos" }
+"brew-cask:rectangle" = { os = "macos" }
+"brew-cask:stats" = { os = "macos" }
+"brew-cask:steam" = { os = "macos" }
+"brew-cask:thaw" = { os = "macos" }
+"brew-cask:transmission" = { os = "macos" }
+"brew-cask:zed" = { os = "macos" }
+"brew-cask:zen" = { os = "macos" }
+
+# Kept in the golden inventory but installed manually until mise's direct cask
+# backend supports their lifecycle steps. The `_` section is ignored by mise.
+[_.manual_macos]
+casks = ["blender"]
+formulae = ["rjyo/moshi/moshi-hook"]
+
+[bootstrap.repos]
+"~/.antidote" = { url = "https://github.com/mattmc3/antidote.git" }
+
+[bootstrap.mise_shell_activate]
+bash_profile = "shims"
+bashrc = "activate"
+zshrc = "activate"
+
+# These replace the Homebrew-generated LaunchAgents after the current Mac's
+# service migration. Do not apply this phase until the old homebrew.mxcl jobs
+# have been stopped, or both supervisors will start the same services.
+#
+# HARDCODED HOME PATH -- CHANGE `/Users/aj` TO MATCH YOUR SYSTEM.
+#
+# The PATH below cannot be written portably. launchd does not expand `$HOME`
+# inside EnvironmentVariables, and mise does not template this map either
+#
+# `/usr/sbin` is required for the lsof and netstat that moshi-hook's gateway
+# discovery shells out to
+[bootstrap.macos.launchd.agents.moshi-hook]
+program = "/opt/homebrew/opt/moshi-hook/bin/moshi-hook"
+args = ["serve"]
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin" }
+keep_alive = true
+run_at_load = true
+working_directory = "/opt/homebrew/var"
+stdout_path = "/opt/homebrew/var/log/moshi-hook.log"
+stderr_path = "/opt/homebrew/var/log/moshi-hook.log"
+
+[bootstrap.macos.launchd.agents.node-exporter]
+program = "/opt/homebrew/opt/node_exporter/bin/node_exporter_brew_services"
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin" }
+run_at_load = true
+stdout_path = "/opt/homebrew/var/log/node_exporter.log"
+stderr_path = "/opt/homebrew/var/log/node_exporter.err.log"
+
+[bootstrap.macos.launchd.agents.prometheus]
+program = "/opt/homebrew/opt/prometheus/bin/prometheus_brew_services"
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin" }
+run_at_load = true
+stdout_path = "/opt/homebrew/var/log/prometheus.log"
+stderr_path = "/opt/homebrew/var/log/prometheus.err.log"
+
+[bootstrap.macos.launchd.agents.syncthing]
+program = "/opt/homebrew/opt/syncthing/bin/syncthing"
+args = ["--no-browser", "--no-restart"]
+environment = { PATH = "/Users/aj/.local/share/mise/shims:/Users/aj/.local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin" }
+keep_alive = true
+run_at_load = true
+stdout_path = "/opt/homebrew/var/log/syncthing.log"
+stderr_path = "/opt/homebrew/var/log/syncthing.log"
+
+[tools]
+# Languages and runtime package managers. Node remains on its LTS major line.
+bun = "latest"
+deno = "latest"
+go = "latest"
+node = "24"
+pnpm = "latest"
+# 3.10 stays alongside the default for older project virtualenvs; it replaces
+# the python@3.10 formula the previous mac-packages.sh installed.
+python = ["latest", "3.10"]
+rust = "latest"
+uv = "latest"
+zig = "latest"
+
+# Portable developer CLIs from upstream release artifacts.
+awscli = "latest"
+bat = "latest"
+# The upstream artifact backend is Linux-only; macOS uses the formula above.
+btop = { version = "latest", os = ["linux"] }
+cmake = "latest"
+ctop = "latest"
+d2 = "latest"
+delta = "latest"
+duf = "latest"
+dust = "latest"
+"aqua:ogham/dog" = "latest"
+eza = "latest"
+fd = "latest"
+fzf = "latest"
+gh = "latest"
+git-lfs = "latest"
+glab = "latest"
+# macOS uses the signed application cask above; Linux uses mise's CLI build.
+godot = { version = "latest", os = ["linux"] }
+helm = "latest"
+"github:herdrdev/herdr" = "latest"
+jq = "latest"
+k9s = "latest"
+kubectl = "latest"
+lazydocker = "latest"
+lazygit = "latest"
+lychee = "latest"
+neovim = "latest"
+pandoc = "latest"
+popeye = "latest"
+rclone = "latest"
+ripgrep = "latest"
+"aqua:boyter/scc" = "latest"
+"aqua:google-antigravity/antigravity-cli" = "latest"
+staticcheck = "latest"
+terraform = "latest"
+tmux = "latest"
+yq = "latest"
+zellij = "latest"
+zoxide = "latest"
+
+# Language-ecosystem CLIs are declared here, never installed directly with
+# cargo install, go install, npm install -g, or pipx install.
+"cargo:tealdeer" = "latest"
+"go:gitea.dev/tea" = "0.15.1"
+"go:golang.org/x/vuln/cmd/govulncheck" = "latest"
+"npm:@anthropic-ai/claude-code" = { version = "latest", allow_builds = ["@anthropic-ai/claude-code"] }
+"npm:@earendil-works/pi-coding-agent" = "latest"
+"npm:@google/gemini-cli" = "latest"
+"npm:@mermaid-js/mermaid-cli" = { version = "latest", allow_builds = ["@mermaid-js/mermaid-cli", "puppeteer"] }
+"npm:@openai/codex" = "latest"
+"npm:@playwright/cli" = "latest"
+"npm:opencode-ai" = { version = "latest", allow_builds = ["opencode-ai"] }
+"npm:renovate" = "latest"
+"pipx:asciinema" = "latest"
+"pipx:glances" = "latest"
+"pipx:httpie" = "latest"
+# KubeDiagrams 0.8.0 pins PyGraphviz 1.14, which is incompatible with current
+# Graphviz. Stage the repository override file and let uv install the fixed
+# PyGraphviz wheel on every OS until upstream relaxes its dependency pin.
+"pipx:kubediagrams" = { version = "latest", uvx_args = "--overrides {{ xdg_config_home }}/mise/kubediagrams-overrides.txt" }
+"pipx:ranger-fm" = "latest"
