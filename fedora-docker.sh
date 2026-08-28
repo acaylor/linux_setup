@@ -6,15 +6,15 @@ NOCL='\e[0m'
 
 echo -e "$RED remove old versions of docker if installed $NOCL"
 sudo dnf remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-engine-selinux \
-                  docker-engine
-                  #docker-selinux \ was removed
+  docker-client \
+  docker-client-latest \
+  docker-common \
+  docker-latest \
+  docker-latest-logrotate \
+  docker-logrotate \
+  docker-engine-selinux \
+  docker-engine
+#docker-selinux \ was removed
 
 echo -e "$RED install dnf core utilities $NOCL"
 

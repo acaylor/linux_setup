@@ -2,7 +2,7 @@
 
 set -e
 
-sudo tee -a /etc/yum.repos.d/google-cloud-sdk.repo << EOM
+sudo tee -a /etc/yum.repos.d/google-cloud-sdk.repo <<EOM
 [google-cloud-cli]
 name=Google Cloud CLI
 baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el8-x86_64

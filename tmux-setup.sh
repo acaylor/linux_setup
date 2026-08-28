@@ -1,4 +1,6 @@
-cd
+#!/usr/bin/env bash
+
+cd || exit
 git clone https://github.com/gpakosz/.tmux.git
-ln -s -f .tmux/.tmux.conf
+ln -s -f .tmux/.tmux.conf .
 cp .tmux/.tmux.conf.local .

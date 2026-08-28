@@ -1,0 +1,34 @@
+name: Shell quality
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: ShellCheck and shfmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install lint tools
+        uses: jdx/mise-action@v4.2.0
+        with:
+          mise_toml: |
+            [tools]
+            actionlint = "1.7.12"
+            shellcheck = "0.11.0"
+            shfmt = "3.13.1"
+
+      - name: Lint GitHub Actions workflows
+        run: actionlint
+
+      - name: Lint shell scripts
+        # ShellCheck does not support Zsh, even when the file uses a .sh suffix.
+        run: git ls-files -z '*.sh' ':!zsh-plugins.sh' | xargs -0 shellcheck
+
+      - name: Check shell formatting
+        run: shfmt -d .

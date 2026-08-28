@@ -3,4 +3,3 @@
 set -e
 
 useradd --shell /bin/bash --create-home --groups sudo ansible
-

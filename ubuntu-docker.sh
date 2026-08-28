@@ -10,9 +10,11 @@ sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
 echo "Add docker repo and install packages"
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+architecture=$(dpkg --print-architecture)
+# shellcheck source=/dev/null
+source /etc/os-release
+printf 'deb [arch=%s signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu %s stable\n' \
+  "$architecture" "$VERSION_CODENAME" \
+  | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 sudo apt-get update
 echo "done installing docker."

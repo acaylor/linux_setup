@@ -1,2 +1,4 @@
-eval `ssh-agent -s`
+#!/usr/bin/env bash
+
+eval "$(ssh-agent -s)"
 ssh-add
