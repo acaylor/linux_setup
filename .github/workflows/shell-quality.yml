@@ -31,4 +31,4 @@ jobs:
         run: git ls-files -z '*.sh' ':!zsh-plugins.sh' | xargs -0 shellcheck
 
       - name: Check shell formatting
-        run: shfmt -d .
+        run: git ls-files -z '*.sh' '*.zsh' | xargs -0 shfmt -d
