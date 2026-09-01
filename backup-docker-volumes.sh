@@ -5,28 +5,30 @@ DEST='/mnt/nfs/backup'
 SYNC='/var/lib/docker/volumes'
 
 ARCHIVE="backup-$(hostname)-docker-$(date +'%F').tar.gz"
-CMD='tar --warning=no-file-changed -cpzf'
 
-if [[ ! -d $DEST ]];
-then
-    mkdir -p $DEST
+if [[ ! -d $DEST ]]; then
+  mkdir -p $DEST
 fi
 
 # To mount a remote NFS directory:
 #mount -t nfs <host>:<remote-dir> <local-dir>
-NFS="mount -t nfs 0.0.0.0:/backup $DEST"
-
-$NFS
+mount -t nfs 0.0.0.0:/backup "$DEST"
 #rsync -auzr $DEST $SYNC
 
 # stop running containers
-docker stop $(docker ps -q)
+mapfile -t running_containers < <(docker ps -q)
+if ((${#running_containers[@]})); then
+  docker stop "${running_containers[@]}"
+fi
 
 #Backup archive
-$CMD $DEST/$ARCHIVE $SYNC
+tar --warning=no-file-changed -cpzf "$DEST/$ARCHIVE" "$SYNC"
 
 # start containers
-docker start $(docker ps -a -q)
+mapfile -t all_containers < <(docker ps -a -q)
+if ((${#all_containers[@]})); then
+  docker start "${all_containers[@]}"
+fi
 
 #Delete old files
 #find $DEST -mtime +14 -delete

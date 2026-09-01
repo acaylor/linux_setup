@@ -35,8 +35,8 @@ fi
 
 mkdir -p "$HOME/.local/bin" "$config_home/mise"
 if [[ ! -x $mise_bin ]]; then
-  curl --proto '=https' --tlsv1.2 -fsSL https://mise.run |
-    MISE_INSTALL_PATH="$mise_bin" sh
+  curl --proto '=https' --tlsv1.2 -fsSL https://mise.run \
+    | MISE_INSTALL_PATH="$mise_bin" sh
 else
   "$mise_bin" self-update --yes --no-plugins
 fi
@@ -46,6 +46,8 @@ export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
 # Noninteractive Zsh sessions (including `ssh host command`) read ~/.zshenv but
 # not ~/.zshrc. Login setup such as brew shellenv or OrbStack may reorder PATH,
 # so ~/.zprofile reasserts the same precedence after those machine-local edits.
+# The literal expression is written into shell startup files for later expansion.
+# shellcheck disable=SC2016
 mise_path_line='export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"'
 mise_path_comment='# Keep mise-managed tools ahead of system package-manager paths.'
 
@@ -113,4 +115,6 @@ unset _linux_setup_fragment
 EOF
 fi
 
+# The backticks below are documentation, not command substitution.
+# shellcheck disable=SC2016
 printf '\nBootstrap complete. Start a new shell, then run `mise doctor`.\n'

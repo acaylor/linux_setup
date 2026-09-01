@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ### Dell Fan Control Commands
 #
 #
@@ -27,4 +29,3 @@ ipmitool -I lanplus -H hostname -U root -P password raw 0x30 0x30 0x02 0xff 0x1e
 #
 # set fan speed to 100 %
 ipmitool -I lanplus -H hostname -U root -P password raw 0x30 0x30 0x02 0xff 0x64
-

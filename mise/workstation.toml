@@ -163,8 +163,11 @@ uv = "latest"
 zig = "latest"
 
 # Portable developer CLIs from upstream release artifacts.
+actionlint = "latest"
 awscli = "latest"
 bat = "latest"
+# Scan Git repositories and files for leaked credentials.
+betterleaks = "latest"
 # The upstream artifact backend is Linux-only; macOS uses the formula above.
 btop = { version = "latest", os = ["linux"] }
 cmake = "latest"
@@ -180,6 +183,8 @@ fzf = "latest"
 gh = "latest"
 git-lfs = "latest"
 glab = "latest"
+# Run the broader Go linter suite, which includes Staticcheck.
+golangci-lint = "latest"
 # macOS uses the signed application cask above; Linux uses mise's CLI build.
 godot = { version = "latest", os = ["linux"] }
 helm = "latest"
@@ -191,15 +196,22 @@ lazydocker = "latest"
 lazygit = "latest"
 lychee = "latest"
 neovim = "latest"
+# Keep OpenTofu alongside Terraform while existing projects are verified.
+opentofu = "latest"
 pandoc = "latest"
 popeye = "latest"
 rclone = "latest"
 ripgrep = "latest"
+ruff = "latest"
 "aqua:boyter/scc" = "latest"
 "aqua:google-antigravity/antigravity-cli" = "latest"
-staticcheck = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+stern = "latest"
+taplo = "latest"
 terraform = "latest"
 tmux = "latest"
+trivy = "latest"
 yq = "latest"
 zellij = "latest"
 zoxide = "latest"

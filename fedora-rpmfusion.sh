@@ -2,7 +2,10 @@
 # https://rpmfusion.org/configuration
 
 # free and non free rpm repos installed via dnf
-sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+fedora_release=$(rpm -E %fedora)
+sudo dnf install \
+  "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${fedora_release}.noarch.rpm" \
+  "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${fedora_release}.noarch.rpm"
 
 # AppStream metadata
 sudo dnf groupupdate core
