@@ -5,6 +5,10 @@ set -euo pipefail
 
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 manifest="$script_dir/mise/workstation.toml"
+if [[ ${1:-} == --work ]]; then
+  manifest="$script_dir/mise/work.toml"
+  shift
+fi
 kubediagrams_overrides="$script_dir/mise/kubediagrams-overrides.txt"
 # mise reads its global config from the XDG config directory, and the manifest
 # locates the KubeDiagrams override through `{{ xdg_config_home }}`. Derive one
