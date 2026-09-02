@@ -9,6 +9,12 @@ One bootstrap and one mise manifest configure macOS, Ubuntu, and Fedora:
 ./workstation-bootstrap.sh
 ```
 
+Use the work-specific manifest on managed workstations:
+
+```bash
+./workstation-bootstrap.sh --work
+```
+
 The older `mac-packages.sh`, `ubuntu-dev-bootstrap.sh`, and
 `fedora-dev-bootstrap.sh` names remain as compatibility wrappers.
 

@@ -1,0 +1,88 @@
+# Work-managed macOS configuration, initially derived from the packages reported
+# by ~/sourcecode/brewtable.sh. Keep this separate from workstation.toml so work
+# requirements can evolve without changing personal systems.
+
+[settings.npm]
+package_manager = "npm"
+
+[bootstrap.packages]
+# Colima depends on the host's virtualization and networking integration. Keep
+# its Docker client and Compose plugin under Homebrew as one native stack.
+"brew:colima" = { os = "macos" }
+"brew:docker" = { os = "macos" }
+"brew:docker-compose" = { os = "macos" }
+
+# lstr is not currently represented in mise's standard tool registry.
+"brew:lstr" = { os = "macos" }
+
+# Desktop applications and host-integrated vendor tools.
+"brew-cask:claude" = { os = "macos" }
+"brew-cask:conductor" = { os = "macos" }
+"brew-cask:datweatherdoe" = { os = "macos" }
+"brew-cask:firefox" = { os = "macos" }
+"brew-cask:freelens" = { os = "macos" }
+"brew-cask:ghostty" = { os = "macos" }
+"brew-cask:obsidian" = { os = "macos" }
+"brew-cask:rectangle" = { os = "macos" }
+"brew-cask:stats" = { os = "macos" }
+"brew-cask:thaw" = { os = "macos" }
+"brew-cask:zed" = { os = "macos" }
+
+[bootstrap.repos]
+"~/.antidote" = { url = "https://github.com/mattmc3/antidote.git" }
+
+[bootstrap.mise_shell_activate]
+bash_profile = "shims"
+bashrc = "activate"
+zshrc = "activate"
+
+[tools]
+# Language runtimes and package tooling. Keep Node on its required LTS major;
+# "latest" would move to a newer major when the next LTS line is released.
+node = "24"
+python = "3.14"
+uv = "latest"
+
+# Coding-agent CLIs prefer their npm distributions. Agy and Herdr do not publish
+# suitable npm packages, so mise installs their upstream releases through Aqua.
+# The Claude desktop application remains a cask above.
+"npm:@anthropic-ai/claude-code" = { version = "latest", allow_builds = ["@anthropic-ai/claude-code"] }
+"npm:@earendil-works/pi-coding-agent" = "latest"
+"npm:@openai/codex" = "latest"
+"npm:opencode-ai" = { version = "latest", allow_builds = ["opencode-ai"] }
+"aqua:google-antigravity/antigravity-cli" = "latest"
+"aqua:herdrdev/herdr" = "latest"
+
+# Portable developer and platform CLIs.
+actionlint = "latest"
+awscli = "latest"
+bat = "latest"
+crane = "latest"
+d2 = "latest"
+delta = "latest"
+direnv = "latest"
+dust = "latest"
+eza = "latest"
+fd = "latest"
+fzf = "latest"
+gcloud = "latest"
+gh = "latest"
+git-lfs = "latest"
+helm = "3"
+jq = "latest"
+k9s = "latest"
+kubectl = "latest"
+lazygit = "latest"
+neovim = "latest"
+ripgrep = "latest"
+"aqua:aws/session-manager-plugin" = "latest"
+# Preserve the work machine's current version; mise's release-age policy still
+# hides this patch from the "latest" resolver.
+terraform = "1.16.1"
+terraform-docs = "latest"
+tflint = "latest"
+yq = "latest"
+
+# Python applications are isolated through mise's pipx backend.
+"pipx:hatch" = "latest"
+"pipx:pre-commit" = "latest"
