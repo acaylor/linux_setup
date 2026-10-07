@@ -93,7 +93,6 @@ package_manager = "npm"
 # Kept in the golden inventory but installed manually until mise's direct cask
 # backend supports their lifecycle steps. The `_` section is ignored by mise.
 [_.manual_macos]
-casks = ["blender"]
 formulae = ["rjyo/moshi/moshi-hook"]
 
 [bootstrap.repos]
@@ -170,6 +169,7 @@ bat = "latest"
 betterleaks = "latest"
 # The upstream artifact backend is Linux-only; macOS uses the formula above.
 btop = { version = "latest", os = ["linux"] }
+blender = "latest"
 cmake = "latest"
 ctop = "latest"
 d2 = "latest"
@@ -187,6 +187,8 @@ glab = "latest"
 golangci-lint = "latest"
 # macOS uses the signed application cask above; Linux uses mise's CLI build.
 godot = { version = "latest", os = ["linux"] }
+# macOS uses the cask above; Linux uses Zen Browser's upstream release.
+"github:zen-browser/desktop" = { version = "latest", os = ["linux"] }
 helm = "latest"
 "github:herdrdev/herdr" = "latest"
 jq = "latest"
