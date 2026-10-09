@@ -56,9 +56,14 @@ plain `./workstation-bootstrap.sh` converges the complete workstation.
 Blender and `rjyo/moshi/moshi-hook` remain documented manual macOS exceptions:
 their Homebrew lifecycle metadata is not currently supported by mise's direct
 package backend. Everything else the previous `mac-packages.sh` installed has a
-manifest entry; three moved backends rather than disappearing: `gemini-cli`
-became `npm:@google/gemini-cli`, `python@3.10` became a second mise Python
-version, and `steam` stayed a cask.
+manifest entry except the retired `python@3.10` runtime and Gemini CLI.
+`steam` stayed a cask.
+
+Python stays on the 3.14 series, allowing patch upgrades while avoiding the
+local 3.15 build's missing standard-library extensions. Python 3.10 is no
+longer installed; no inspected projects or virtual environments required it.
+Ubuntu also installs `libgraphviz-dev` alongside Graphviz so PyGraphviz (used
+by KubeDiagrams) can compile against its headers.
 
 There are also some that can work on macOS.
 

@@ -16,12 +16,27 @@ package_manager = "npm"
 "apt:entr" = { os = "linux" }
 "apt:ffmpeg" = { os = "linux" }
 "apt:git" = { os = "linux" }
+"apt:gnupg" = { os = "linux" }
 "apt:graphviz" = { os = "linux" }
+"apt:libgraphviz-dev" = { os = "linux" }
+"apt:nvtop" = { os = "linux" }
 "apt:rsync" = { os = "linux" }
 "apt:tree" = { os = "linux" }
 "apt:unzip" = { os = "linux" }
+"apt:wl-clipboard" = { os = "linux" }
 "apt:xz-utils" = { os = "linux" }
 "apt:zsh" = { os = "linux" }
+
+# Headers and libraries for complete Python source builds.
+"apt:libbz2-dev" = { os = "linux" }
+"apt:libffi-dev" = { os = "linux" }
+"apt:liblzma-dev" = { os = "linux" }
+"apt:libncurses-dev" = { os = "linux" }
+"apt:libreadline-dev" = { os = "linux" }
+"apt:libsqlite3-dev" = { os = "linux" }
+"apt:libssl-dev" = { os = "linux" }
+"apt:pkg-config" = { os = "linux" }
+"apt:zlib1g-dev" = { os = "linux" }
 
 # Fedora workstation baseline. Managers that are unavailable on the current
 # Linux distribution are skipped, so apt and dnf entries can coexist here.
@@ -154,9 +169,8 @@ deno = "latest"
 go = "latest"
 node = "24"
 pnpm = "latest"
-# 3.10 stays alongside the default for older project virtualenvs; it replaces
-# the python@3.10 formula the previous mac-packages.sh installed.
-python = ["latest", "3.10"]
+# Stay on 3.14: the local 3.15 build is missing standard-library extensions.
+python = "3.14"
 rust = "latest"
 uv = "latest"
 zig = "latest"
@@ -225,7 +239,6 @@ zoxide = "latest"
 "go:golang.org/x/vuln/cmd/govulncheck" = "latest"
 "npm:@anthropic-ai/claude-code" = { version = "latest", allow_builds = ["@anthropic-ai/claude-code"] }
 "npm:@earendil-works/pi-coding-agent" = "latest"
-"npm:@google/gemini-cli" = "latest"
 "npm:@mermaid-js/mermaid-cli" = { version = "latest", allow_builds = ["@mermaid-js/mermaid-cli", "puppeteer"] }
 "npm:@openai/codex" = "latest"
 "npm:@playwright/cli" = "latest"
