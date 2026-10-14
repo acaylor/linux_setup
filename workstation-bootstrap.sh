@@ -9,16 +9,12 @@ if [[ ${1:-} == --work ]]; then
   manifest="$script_dir/mise/work.toml"
   shift
 fi
-kubediagrams_overrides="$script_dir/mise/kubediagrams-overrides.txt"
-# mise reads its global config from the XDG config directory, and the manifest
-# locates the KubeDiagrams override through `{{ xdg_config_home }}`. Derive one
-# config root here so both files land where mise actually looks for them.
+# mise reads its global config from the XDG config directory.
 config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 global_config="$config_home/mise/config.toml"
-global_kubediagrams_overrides="$config_home/mise/kubediagrams-overrides.txt"
 mise_bin="$HOME/.local/bin/mise"
 
-for required_file in "$manifest" "$kubediagrams_overrides"; do
+for required_file in "$manifest"; do
   if [[ ! -f $required_file ]]; then
     printf 'Missing workstation configuration: %s\n' "$required_file" >&2
     exit 1
@@ -87,7 +83,6 @@ if [[ -f $global_config ]] && ! cmp -s "$manifest" "$global_config"; then
   printf 'Backed up the previous mise config to %s\n' "$backup"
 fi
 install -m 0644 "$manifest" "$global_config"
-install -m 0644 "$kubediagrams_overrides" "$global_kubediagrams_overrides"
 
 # Keep portable Zsh fragments aligned without replacing the user's whole
 # ~/.zshrc, which may contain machine-local initialization and credentials.
