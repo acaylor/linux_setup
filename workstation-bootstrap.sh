@@ -14,12 +14,10 @@ config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 global_config="$config_home/mise/config.toml"
 mise_bin="$HOME/.local/bin/mise"
 
-for required_file in "$manifest"; do
-  if [[ ! -f $required_file ]]; then
-    printf 'Missing workstation configuration: %s\n' "$required_file" >&2
-    exit 1
-  fi
-done
+if [[ ! -f $manifest ]]; then
+  printf 'Missing workstation configuration: %s\n' "$manifest" >&2
+  exit 1
+fi
 
 if ! command -v curl >/dev/null 2>&1; then
   if command -v apt-get >/dev/null 2>&1; then
