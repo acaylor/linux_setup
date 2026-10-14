@@ -23,6 +23,7 @@ package_manager = "npm"
 "brew-cask:freelens" = { os = "macos" }
 "brew-cask:ghostty" = { os = "macos" }
 "brew-cask:obsidian" = { os = "macos" }
+"brew-cask:stablyai/orca/orca" = { os = "macos" }
 "brew-cask:rectangle" = { os = "macos" }
 "brew-cask:stats" = { os = "macos" }
 "brew-cask:thaw" = { os = "macos" }

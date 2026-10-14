@@ -53,17 +53,59 @@ are not taken over prematurely:
 
 After the old `homebrew.mxcl.*` jobs and cask receipts have been migrated, a
 plain `./workstation-bootstrap.sh` converges the complete workstation.
-Blender and `rjyo/moshi/moshi-hook` remain documented manual macOS exceptions:
-their Homebrew lifecycle metadata is not currently supported by mise's direct
-package backend. Everything else the previous `mac-packages.sh` installed has a
-manifest entry except the retired `python@3.10` runtime and Gemini CLI.
+`rjyo/moshi/moshi-hook` remains a documented manual macOS exception: its
+Homebrew lifecycle metadata is not currently supported by mise's direct
+package backend. Blender is managed under mise's `[tools]`. Everything else
+the previous `mac-packages.sh` installed has a manifest entry except the retired
+`python@3.10` runtime and Gemini CLI.
 `steam` stayed a cask.
 
 Python stays on the 3.14 series, allowing patch upgrades while avoiding the
 local 3.15 build's missing standard-library extensions. Python 3.10 is no
-longer installed; no inspected projects or virtual environments required it.
-Ubuntu also installs `libgraphviz-dev` alongside Graphviz so PyGraphviz (used
-by KubeDiagrams) can compile against its headers.
+longer requested by the shared manifest; existing installations can be kept
+until older projects and virtual environments have been checked.
+Ubuntu also installs `libgraphviz-dev` alongside Graphviz for applications
+that compile against its headers.
+
+When changing Python's minor version on an existing machine, rebuild the
+configured Python CLI environments before pruning the old interpreter:
+
+```bash
+mise install --force pipx:asciinema pipx:glances pipx:httpie pipx:ranger-fm
+mise upgrade --global
+mise prune --dry-run
+mise prune --tools
+```
+
+Verify the applications run after rebuilding; selecting a new global Python
+does not convert existing virtual environments. Project environments and
+Python runtimes bundled with native applications have their own lifecycle.
+
+### Sync an existing mise configuration
+
+Fetch upstream and compare the appropriate manifest with the live config
+before bootstrapping. Check Git history for intentional removals so stale
+local entries are not accidentally restored. Work-only applications such as
+Orca belong in `mise/work.toml`.
+
+```bash
+git fetch origin
+git diff HEAD origin/master -- mise/ workstation-bootstrap.sh
+diff -u mise/workstation.toml "${XDG_CONFIG_HOME:-$HOME/.config}/mise/config.toml"
+MISE_GLOBAL_CONFIG_FILE="$PWD/mise/workstation.toml" mise --cd /tmp install --dry-run
+```
+
+Use `mise/work.toml` in both comparisons and the preview on work machines. The
+preview runs outside the home directory so the live home config is not also
+discovered as a project config.
+Keep machine-only settings in `~/.config/mise/config.local.toml` (under
+`$XDG_CONFIG_HOME` when set); mise loads them alongside the shared config and
+the bootstrap leaves that file in place.
+Preview with mise directly: `workstation-bootstrap.sh --dry-run` still updates
+mise and copies configs and shell fragments before mise sees that flag. Review
+and back up local edits before applying the manifest. Removing a tool from the
+config does not mean its installed versions should be pruned; keep old versions
+until projects have been checked.
 
 There are also some that can work on macOS.
 
