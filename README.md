@@ -71,7 +71,7 @@ When changing Python's minor version on an existing machine, rebuild the
 configured Python CLI environments before pruning the old interpreter:
 
 ```bash
-mise install --force pipx:asciinema pipx:glances pipx:httpie pipx:ranger-fm
+mise install --force pipx:asciinema pipx:glances pipx:posting
 mise upgrade --global
 mise prune --dry-run
 mise prune --tools
@@ -80,6 +80,22 @@ mise prune --tools
 Verify the applications run after rebuilding; selecting a new global Python
 does not convert existing virtual environments. Project environments and
 Python runtimes bundled with native applications have their own lifecycle.
+
+### File browsing, HTTP, and DNS tools
+
+The workstation manifest uses Yazi in place of ranger, xh and Posting in place
+of HTTPie, and doggo in place of dog. Run `y` to browse files and change the
+shell directory when Yazi exits; `yazi` leaves the shell directory unchanged.
+Use `xh` for HTTP requests, `xhs` to default to HTTPS, `posting` for the API
+client TUI, and `doggo` for DNS queries.
+
+After bootstrapping an existing machine and verifying the replacements, remove
+any remaining old installations and start a new shell to load the `y` helper:
+
+```bash
+mise uninstall --all pipx:ranger-fm pipx:httpie aqua:ogham/dog
+exec zsh
+```
 
 ### Sync an existing mise configuration
 
