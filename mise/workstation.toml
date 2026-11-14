@@ -211,6 +211,7 @@ kubectl = "latest"
 lazydocker = "latest"
 lazygit = "latest"
 lychee = "latest"
+"github:grafana/mcp-grafana" = "latest"
 neovim = "latest"
 # Keep OpenTofu alongside Terraform while existing projects are verified.
 opentofu = "latest"
@@ -237,7 +238,7 @@ zoxide = "latest"
 # Language-ecosystem CLIs are declared here, never installed directly with
 # cargo install, go install, npm install -g, or pipx install.
 "cargo:tealdeer" = "latest"
-"go:gitea.dev/tea" = "0.15.1"
+"go:gitea.dev/tea" = "latest"
 "go:golang.org/x/vuln/cmd/govulncheck" = "latest"
 "npm:@anthropic-ai/claude-code" = { version = "latest", allow_builds = ["@anthropic-ai/claude-code"] }
 "npm:@earendil-works/pi-coding-agent" = "latest"
