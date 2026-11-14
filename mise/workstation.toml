@@ -167,7 +167,7 @@ stderr_path = "/opt/homebrew/var/log/syncthing.log"
 bun = "latest"
 deno = "latest"
 go = "latest"
-node = "24"
+node = "26"
 pnpm = "latest"
 # Stay on 3.14: the local 3.15 build is missing standard-library extensions.
 python = "3.14"

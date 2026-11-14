@@ -40,7 +40,7 @@ zshrc = "activate"
 [tools]
 # Language runtimes and package tooling. Keep Node on its required LTS major;
 # "latest" would move to a newer major when the next LTS line is released.
-node = "24"
+node = "26"
 python = "3.14"
 uv = "latest"
 
