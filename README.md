@@ -58,7 +58,13 @@ Homebrew lifecycle metadata is not currently supported by mise's direct
 package backend. Blender is managed under mise's `[tools]`. Everything else
 the previous `mac-packages.sh` installed has a manifest entry except the retired
 `python@3.10` runtime and Gemini CLI.
-`steam` stayed a cask.
+Casks needed on only one Mac, such as `steam` or `protonvpn`, belong in that
+machine's `config.local.toml` rather than the shared manifest:
+
+```toml
+[bootstrap.packages]
+"brew-cask:steam" = { os = "macos" }
+```
 
 Python stays on the 3.14 series, allowing patch upgrades while avoiding the
 local 3.15 build's missing standard-library extensions. Python 3.10 is no
